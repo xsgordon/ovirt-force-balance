@@ -18,11 +18,3 @@ of virtual machines per host as virtual machines divided by hosts.
 The script then loops through the hosts in the environment and for each over
 utilized host initiates virtual machine migrations to bring the number of
 virtual machines on the host down to the optimum number.
-
-ovirt-force-balance --url URL --user USER --pass --percentage=M --sleep=n
-
-TODO:
-
-- Parameterize
-- Add cluster parameter and logic.
-- Target migrations to machines identified as under utilized.
