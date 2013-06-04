@@ -3,6 +3,7 @@
 from ovirtsdk.api import API
 from ovirtsdk.xml import params
 import argparse
+from time import sleep
 
 parser = argparse.ArgumentParser(description="Automatically balance virtual" +
                                              "machine loads in an oVirt or " +
