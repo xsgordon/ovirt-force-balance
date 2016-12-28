@@ -18,3 +18,6 @@ of virtual machines per host as virtual machines divided by hosts.
 The script then loops through the hosts in the environment and for each over
 utilized host initiates virtual machine migrations to bring the number of
 virtual machines on the host down to the optimum number.
+
+Please note that this script has been developed and tested with the oVirt/RHEV
+3.x series only.
