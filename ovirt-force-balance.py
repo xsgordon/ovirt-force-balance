@@ -54,9 +54,6 @@ def _balanceCluster(cluster):
     print "Ideal Virtual Machines per host: %s to %s" % (str(ideal_min),
                                                          str(ideal_max))
 
-    if active_hosts == 1:
-        return
-
     # Loop through the hosts looking at the number of active VMs indicated. For
     # each host determine if it is over/under utilized. For over utilized
     # engage migration of enough VMs to bring it within range, for under
@@ -72,7 +69,7 @@ def _balanceCluster(cluster):
             difference = host_active - ideal_max
             host_migrating = int(host.get_summary().migrating)
 
-            print "Host %s is over-utilized" % host.name
+            print("Host %s is over-utilized with %s VMs" % (host.name, host_active))
             vms_list = api.vms.list(**{"host.id": host.id})
             for vm in vms_list:
                 if difference > host_migrating:
@@ -81,7 +78,9 @@ def _balanceCluster(cluster):
                     host_migrating = host_migrating + 1
                     sleep(60)
         elif host_active < ideal_min:
-            print "Host %s is under-utilized" % host.name
+            print("Host %s is under-utilized with %s VMs" % (host.name, host_active))
+        else:
+            print("Host %s is optimally utilized with %s VMs" % (host.name, host_active))
 
 
 try:
