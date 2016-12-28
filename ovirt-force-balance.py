@@ -1,6 +1,8 @@
 #!/bin/python
 
 import argparse
+from math import ceil
+from math import floor
 from time import sleep
 from ovirtsdk.api import API
 
@@ -43,8 +45,8 @@ def _balanceCluster(cluster):
         return
 
     ideal_load = active_vms / active_hosts
-    ideal_min = ideal_load * 0.90
-    ideal_max = ideal_load * 1.10
+    ideal_min = floor(ideal_load * 0.90)
+    ideal_max = ceil(ideal_load * 1.10)
 
     # Display inputs to the calculation and the resultant range.
     print "Active Hosts: %s" % str(active_hosts)
