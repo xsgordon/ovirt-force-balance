@@ -1,19 +1,26 @@
 #!/bin/python
 
-from ovirtsdk.api import API
-from ovirtsdk.xml import params
 import argparse
 from time import sleep
+from ovirtsdk.api import API
 
-parser = argparse.ArgumentParser(description="Automatically balance virtual" +
-                                             "machine loads in an oVirt or " +
-                                             "RHEVenvironment.")
-parser.add_argument("-l", "--location", action="store",
-                    default="https://127.0.0.1:8443")
-parser.add_argument("-u", "--user", action="store", default="admin@internal")
-parser.add_argument("-p", "--password", action="store", required=True)
-parser.add_argument("-c", "--cluster", action="store", required=False)
-args = parser.parse_args()
+
+def _parseArguments():
+
+    parser = argparse.ArgumentParser(description="Automatically balance virtual" +
+                                     "machine loads in an oVirt or " +
+                                     "RHEV environment.")
+    parser.add_argument("-l", "--location", action="store",
+                        default="https://127.0.0.1:8443")
+    parser.add_argument("-u", "--user", action="store", default="admin@internal")
+    parser.add_argument("-p", "--password", action="store", required=True)
+    parser.add_argument("-c", "--cluster", action="store", required=False)
+    parser.add_argument("-K", "--key-file", action="store", required=False)
+    parser.add_argument("-C", "--cert-file", action="store", required=False)
+    parser.add_argument("-A", "--ca_file", action="store", required=False)
+    parser.add_argument("-I", "--insecure", action="store_true", required=False)
+
+    return parser.parse_args()
 
 
 def _balanceCluster(cluster):
@@ -76,10 +83,16 @@ def _balanceCluster(cluster):
 
 
 try:
+    args = _parseArguments()
+
     api = API(url=args.location,
               username=args.user,
               password=args.password,
-              insecure=True)
+              key_file=args.key_file,
+              cert_file=args.cert_file,
+              ca_file=args.ca_file,
+              insecure=args.insecure)
+
 
     if args.cluster is None:
 
